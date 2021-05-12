@@ -5,15 +5,10 @@ import datetime
 import socket
 import os
 
-pwd = cmd('pwd')
-pwd = pwd[-1]
-pwd2 = pwd
+cd = False
 name = socket.gethostname()
-lastlogin = open('lastlogin.txt', 'r')
-print(lastlogin.read())
-lastlogin = open('lastlogin.txt', 'w')
-lastlogin.write('Last Login: ' + str(datetime.datetime.now()))
-lastlogin.close()
+whoami = cmd('whoami')
+pwd = cmd('pwd')[-1]
 answer = ''
 
 app = Flask(__name__)
@@ -26,10 +21,11 @@ def asdljkf():
     if request.method == 'POST':
         global answer
         global pwd
-        if pwd == pwd2:
-            prompt = pwd.split('/')[-1]+'@'+name.replace('.local', '')+' ~ % '
+        global cd
+        if cd == False:
+            prompt = whoami[-1]+'@'+name.replace('.local', '')+' ~ % '
         else:
-            prompt = pwd2.split('/')[-1]+'@'+name.replace('.local', '')+' '+pwd.split('/')[-1]+' % '
+            prompt = whoami[-1]+'@'+name.replace('.local', '')+' '+pwd.split('/')[-1]+' % '
         command = request.form['command']
         if platform.lower() != 'win32' or 'windows':
             if command == 'exit':
@@ -46,6 +42,7 @@ def asdljkf():
                         pwd = pwd+'/'+command.split('/')[-1]
                     else:
                         pwd = pwd+'/'+command.split(' ')[-1]
+                    cd = True
 
         else:
             if command == 'exit':
@@ -58,6 +55,7 @@ def asdljkf():
                         pwd = pwd+'/'+command.split('/')[-1]
                     else:
                         pwd = pwd+'/'+command.split(' ')[-1]
+                    cd = True
         return render_template('index.html', ask=prompt, card=answer[-1])
 
 
