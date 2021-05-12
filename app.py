@@ -1,28 +1,3 @@
-# from flask import Flask, render_template, request
-# from os import system as s
-# import subprocess
-# import socket
-# import sys
-
-# whoami = subprocess.getstatusoutput('whoami')
-# app = Flask(__name__)
-# @app.route('/')
-# def asdf():
-#     return render_template('index.html')
-
-# @app.route('/terminal', methods=['GET', 'POST'])
-# def asdljkf():
-#     if request.method == 'POST':
-#         answer = subprocess.getstatusoutput(request.form['command'])
-#         answer = answer[-1]
-#         new_ans = ''
-#         for i in answer.split('\n'):
-#             new_ans = new_ans + i +'\n\n'
-#     return render_template('index.html', card=new_ans, ask=str(socket.gethostname()).replace('.local', '')+'@'+whoami[-1]+'~ %')
-
-# if __name__=="__main__":
-#     app.run(debug=True)
-
 from flask import Flask, render_template, request
 from sys import platform
 from subprocess import getstatusoutput as cmd
@@ -42,15 +17,12 @@ lastlogin.close()
 answer = ''
 
 app = Flask(__name__)
-
-
 @app.route('/')
 def asdf():
     return render_template('index.html')
 
-
 @app.route('/terminal', methods=['GET', 'POST'])
-def adlfkj():
+def asdljkf():
     if request.method == 'POST':
         global answer
         global pwd
